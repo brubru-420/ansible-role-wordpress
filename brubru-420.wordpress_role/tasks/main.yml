@@ -1,0 +1,55 @@
+- name: Installer les paquets requis
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ wordpress_packages[ansible_os_family] }}"
+
+
+- name: Activer et démarrer Apache et MariaDB
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  loop: "{{ wordpress_services[ansible_os_family] }}"
+
+
+- name: Copy WordPress files
+  unarchive:
+    src: "{{ wordpress_url }}"
+    dest: "{{ wordpress_web_root }}"
+    remote_src: yes
+  notify: Restart web server
+
+
+- name: Créer le répertoire web root si absent
+  file:
+    path: "{{ wordpress_web_root }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: Télécharger WordPress
+  get_url:
+    url: "{{ wordpress_url }}"
+    dest: /tmp/latest.zip
+
+- name: Extraire WordPress
+  unarchive:
+    src: /tmp/latest.zip
+    dest: /tmp/
+    remote_src: yes
+
+- name: Copier les fichiers WordPress
+  copy:
+    src: /tmp/wordpress/
+    dest: "{{ wordpress_web_root }}/"
+    owner: www-data
+    group: www-data
+    mode: '0755'
+    remote_src: yes
+
+- name: Supprimer la page par défaut d’Apache
+  file:
+    path: "{{ wordpress_web_root }}/index.html"
+    state: absent
