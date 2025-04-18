@@ -1,0 +1,9 @@
+namespace: brubru_420         
+name: wordpress_role
+version: 1.0.0
+readme: README.md
+authors:
+  - brubru_420
+description: Rôle Ansible pour installer WordPress avec Apache et MariaDB
+license: MIT
+tags: [wordpress, apache, php, mariadb]

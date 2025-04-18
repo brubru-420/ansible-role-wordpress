@@ -1,0 +1,39 @@
+---
+wordpress_url: "https://wordpress.org/latest.zip"
+
+
+wordpress_web_root: "/var/www/html"
+
+mysql_root_password: "examplerootPW"
+wordpress_db_name: "wordpress"
+wordpress_db_user: "example"
+wordpress_db_password: "examplePW"
+
+wordpress_packages:
+  Debian:
+    - apache2
+    - php
+    - libapache2-mod-php
+    - php-mysql
+    - mariadb-server
+    - wget
+    - unzip
+  RedHat:
+    - httpd
+    - php
+    - php-mysqlnd
+    - mariadb-server
+    - wget
+    - unzip
+
+wordpress_services:
+  Debian:
+    - apache2
+    - mariadb
+  RedHat:
+    - httpd
+    - mariadb
+
+apache_service: "{{ 'apache2' if ansible_os_family == 'Debian' else 'httpd' }}"
+
+mariadb_service: mariadb
