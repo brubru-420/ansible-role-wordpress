@@ -1,7 +1,0 @@
----
-- name: Restart web server
-  service:
-    name: "{{ apache_service }}"
-    state: restarted
-
-

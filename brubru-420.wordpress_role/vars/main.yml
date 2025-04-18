@@ -1,5 +1,0 @@
-mysql_root_password: "supersecure"
-wordpress_db_name: "wpdb"
-wordpress_db_user: "wpuser"
-wordpress_db_password: "wppass"
-wordpress_web_root: "/var/www/html"
